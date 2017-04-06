@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+<h1 > {%block title %} Add post {% endblock %} </h1>
+
+{% block body %}
+
+<div class="container-fluid" style="background:white; width:100%; height:100%;">
+
+    <div class="row">
+
+        <div class="col-sm-2 col-md-10">
+            
+    {% if post.id %}
+   <h2 align="left" style="margin-top:80px; margin-left:120px;" >Edit post</h2>
+   {% else %}
+   <h2 align="left" style="margin-top:80px; margin-left:120px;" >Add post</h2>
+   {% endif %}
+   {% if error_message %}
+      <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+ {{ form.title }}
+ {{ form.text }}
+ {{form.image}}
+<div class="form-group">
+                            <div class="col-md-offset-6 col-md-1">
+                                <button type="submit" class="btn btn-info">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+       
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

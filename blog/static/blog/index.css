@@ -1,0 +1,16 @@
+html {
+	background-color: #e9ebee;
+}
+
+
+
+
+a.btn-success, button.btn-success  { 
+	margin-left:10px; width:95px;background-color:transparent;border: none;
+	 }
+a.btn-success:hover, button.btn-success:hover {
+                     background-color: #337ab7;}
+
+a.btn-success:active, button.btn-success:active {
+	background-color: #337ab7;
+}

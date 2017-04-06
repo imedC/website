@@ -1,0 +1,23 @@
+from blog.models import Post, Comment
+>>> Post.objects.all()
+<QuerySet []>
+>>> a = Post(title = "test", text ="ceci est un test")
+>>> a.pk
+>>> a.save()
+>>> a.pk
+1
+>>> a.id
+1
+>>> a.text
+'ceci est un test'
+>>> a.title
+'test'
+>>> b = Post(title ="test2", text = "2eme test")
+>>> b.save()
+
+post1 = Post.objects.get( pk = 1)
+comment = Comment()
+comment.post = post1
+comment.textc = 'sqfkhqfjq'
+comment.save()
+post1.comment_set.all()

@@ -1,0 +1,58 @@
+
+{% if posts %}
+{% for post in posts %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'blog/index.css' %}">
+
+<div class="paragraphs">
+  <div class="row">
+    <div class="span4">
+      <img src="http://www.w3schools.com/css/img_fjords.jpg" style="float:left;height:178px; width:178px;"  alt ="logo">
+        <h1><h1 style="color:#666;" > &nbsp;{{ post.title }}</h1>
+         Posted by <a href="{% url 'blog:profil' %}"> {{ post.user.username}}</a>
+        {% if post.published_date %}
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+        {% endif %}
+        <small>
+<span class="btn-group pull-right">
+  <a class="btn btn-default btn-sm" href="{% url 'blog:update' post.pk %}">
+  <span class="glyphicon glyphicon-pencil"></span> </a>
+ <form action="{% url 'blog:delete' post.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value="{{ post.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+  
+        
+        
+        </span></small></h1>
+        
+        <div class="well">
+        <p style="
+        padding-left:10px;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height:2em;
+">
+        {{ post.text|safe}}</p>
+
+        </div>
+        <div><a href="#" class="read-url" style="color:#09c; margin-left:500px;">
+        <button class="btn btn-primary"> Read More »</button></a></div> 
+         </div>
+  </div>
+</div>
+
+    
+    
+
+	{% endfor %}
+	{% endif %}
+	

@@ -1,0 +1,24 @@
+
+.form-style-2 label {
+    width: 100px;
+    font-weight: bold;
+    float: left;
+    padding-top: 8px;
+    padding-right: 5px;
+    display: block;
+    
+}
+.form-style-2{
+    max-width: 500px;
+    padding: 30px 20px 10px 100px;
+    font: 16px Arial, Helvetica, sans-serif;
+
+}
+h2{
+    font-weight: bold;
+    font-style: italic;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    font-size: 25px;
+    padding-bottom: 3px;
+}
