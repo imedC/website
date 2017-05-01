@@ -7,7 +7,7 @@ app_name = 'blog' #ceci est pour indiquer que tt les noms des url ( details, com
 urlpatterns = [
     # this section contains the different url in /blog/
     # /blog/
-    url(r'^$',IndexView.as_view(), name = 'index'),
+    url(r'^$',views.IndexView, name = 'index'),
     url(r'^register/$', views.UserFormView.as_view(), name = 'register'),
     url(r'^login/$',  views.login_user, name = 'login'),
     url(r'^logout/$', views.logout_user, name='logout'),

@@ -1,4 +1,4 @@
-{%extends 'blog/base.html'%}
+{%extends base_template_name %}
 {% load staticfiles %}
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -111,17 +111,25 @@ body { background-color:#e6ffff; }
     line-height: 1;
     color: #262626;
     vertical-align: middle;">
-                        <a target="_blank" href="#">{{post.user.username}}</a>
+                        <a target="_blank" href="#">{{user.username}}</a>
                     </div>
-                    <div class="desc">{{ user.profile.bio|safe }}</div>
+                      <br>
+                    {% if not user.profile.bio%}
+                    <div class="desc" style="font-family:serif;">Introduce yourself</div> {%else%}
+                    <div class="desc" style="font-family:serif;">{{ user.profile.bio|safe }}</div> {%endif%}
                 </div>
                 <div class="bottom">
                             <h3><strong>Location</strong></h3>
-                            <p>{{user.profile.location|safe}}</p>
+                            {% if not user.profile.location %}
+                            <p>-</p>
+                            <p>{{user.profile.location|safe}}</p>{%endif%}
                             <hr>
+
                             <h3><strong>Birthday</strong></h3>
-                            <p>{{post.user.profile.bd}}</p>
-                            <a class="btn btn-primary btn-twitter btn-sm" href="https://twitter.com/webmaniac">
+                            {% if not post.user.profile.bd %}
+                            <p>-</p>
+                            <p>{{post.user.profile.bd}}</p>{%endif%} <hr>
+                            <a class="btn btn-primary btn-twitter btn-sm" href="https://twitter.com/webmaniac"> 
                         <i class="fa fa-twitter"></i>
                     </a>
                     <a class="btn btn-danger btn-sm" rel="publisher"

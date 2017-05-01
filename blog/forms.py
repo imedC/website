@@ -15,6 +15,25 @@ class PostForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     #TODO: pwd with miniscule, maj, lettres et chiffres
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+
+        self.fields['password'].required = False
+        self.fields['password2'].required = False
+
+
+    def clean(self):
+        super(UserForm, self).clean()
+        data = self.cleaned_data
+        if data["password"] != data["password2"]:
+            raise forms.ValidationError({'password': ["Passwords must be the same."]})
+        elif len(data["password"]) <6:
+            raise forms.ValidationError({'password': ["password must be at least 6 characters"]})
+        return data
+
+
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
+        'placeholder': 'Confirm your password'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control',
         'placeholder': 'Your Password'}))
     username = forms.CharField(
@@ -30,7 +49,8 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password','password2']
+
 
 
 class ProfileForm(forms.ModelForm):

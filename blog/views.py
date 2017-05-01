@@ -22,7 +22,8 @@ def Profil(request, username):
 
 	logged_in_user_posts = Post.objects.filter(user=user)
 	context = {'base_template_name':base_template_name}
-	return render(request, 'blog/profil.html', {'user':user, 'posts':logged_in_user_posts})
+	return render(request, 'blog/profil.html',
+	{'user':user, 'posts':logged_in_user_posts,'base_template_name':base_template_name })
 
 
 		
@@ -40,12 +41,13 @@ def update_profile(request, username):
 	return render(request, 'blog/edit_profile.html', {
 		'profile_form': profile_form })
 
-class IndexView(generic.ListView):
-	template_name = 'blog/index.html'
-	context_object_name = 'posts'
-	def get_queryset(self):
-		return Post.objects.filter(published_date__lte=timezone.now()).order_by('created_date')
-	
+def IndexView(request):
+	if request.user.is_authenticated():
+		base_template_name = 'blog/base.html'
+	else:
+		base_template_name = 'blog/visitor.html'
+	posts = Post.objects.all()
+	return render(request, 'blog/index.html', {'posts':posts,'base_template_name':base_template_name})
 
 def DetailView(request, pk):
 	if request.user.is_authenticated():

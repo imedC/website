@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends base_template_name %}
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'blog/index.css' %}">
@@ -128,6 +128,7 @@
 <div class="container" >
 
 <div class="row " style="padding-top:60px;">
+{% if user.is_authenticated %}
 <div class="col-md-3">
 
             <div class="card hovercard" style="text-align:center;" >
@@ -174,9 +175,17 @@
                 </div>
             </div>
 
-        </div>
+        </div>{%else%}
+        <div class="col-md-2"></div>
+        {%endif%}
 
 <div class="col-md-7" style="padding-top:10px;">
+{% if not user.is_authenticated %}
+<div class="panel panel-default">
+    <div class="panel-body"> 
+    <p style="font-size:20px;color:#66757f;font-family:serief;">New to the website? Sign up now to get your own personalized timeline!</p>
+                </div></div>
+{%endif%}
            {% if posts %}
              {% for post in posts %}
             <!-- Simple post content example. -->

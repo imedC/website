@@ -49,7 +49,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img src="{% static 'blog/test.png' %}" class="img-rounded" alt ="logo" style="height: 50px; -webkit-filter:opacity(50%); filter: invert(100%);">
+            <img src="{% static 'blog/letter.png' %}" class="img-rounded" alt ="logo" style="height: 50px; -webkit-filter:opacity(50%); filter: invert(100%);">
              <a href="{% url 'blog:index' %}" style="color:white;" >
             <button class="btn btn-primary navbar-btn" style="margin-left:40px; width: 80px;"
              aria-hidden="true" >Blog </button></a>
@@ -75,15 +75,15 @@
              <div class="nav navbar-nav navbar-right">
                 {% if posts %}
              {% for post in posts %}
-                 <a href="{% url 'blog:profil' request.user.username %}" style="color:white;" > {%endfor%} {%endif%}
+                 <a href="{% url 'blog:profil' post.pk %}" style="color:white;" > {%endfor%} {%endif%}
             <button class=" btn navbar-btn btn-success" aria-hidden="true" >
                 <span class="user-avatar pull-left">
-                                        {% if post.user.profile.avatar %}
-                                        <img src="{{ post.user.profile.avatar.url }}" title="John Doe" alt="John Doe" width="30px" height="30px">
+                                        {% if request.user.profile.avatar %}
+                                        <img src="{{ request.user.profile.avatar.url }}" title="John Doe" alt="John Doe" width="30px" height="30px">
                                         {%else%}
-                                        <img src="{% static 'blog/test.png' %}" title="John Doe" alt="John Doe" width="30px" height="30px">
+                                        <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRuLHkpwz9uatkkrzR6FvSyO-AbKAPqTwu8pHrUx2BAtYBjpDCS-Q" title="John Doe" alt="John Doe" width="30px" height="25px">
                                         {%endif%}
-                                    </span>{{request.user}}</button></a>
+                                    </span>{{request.user.username}}</button></a>
                 </div>
             
         </div>
