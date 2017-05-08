@@ -10,22 +10,43 @@
         <div class="col-sm-2 col-md-10">
             
     {% if post.id %}
-   <h2 align="left" style="margin-top:80px; margin-left:120px;" >Edit post</h2>
+   <h2 align="left" style="margin-top:80px; margin-left:120px;color:#616161;" >Edit post</h2><hr style="100%;">
    {% else %}
-   <h2 align="left" style="margin-top:80px; margin-left:120px;" >Add post</h2>
+   <h2 align="left" style="margin-top:80px; margin-left:120px;color:#616161;" >Add post</h2>
    {% endif %}
    {% if error_message %}
       <p><strong>{{ error_message }}</strong></p>
     {% endif %}
     <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    
- {{ form.title }}
- {{ form.text }}
- {{form.image}}
+       <div class="form-group">
+              <label class="col-md-offset-2 control-label"><h4 style="color:#636c72;">Title</h4></label>
+              <div class="col-md-offset-2 cols-md-3">
+                <div class="input-group" style="width:100%;">
+                  {{ form.title }}
+                </div>
+              </div>
+            </div>
+          <div class="form-group">
+              <label class="col-md-offset-2 control-label"><h4 style="color:#636c72;">Picture</h4></label>
+              <div class="col-md-offset-2 cols-md-3">
+                <div class="input-group" style="width:100%;">
+                    {{form.image}}
+                </div>
+              </div>
+          </div>
+        <div class="form-group">
+              <label class="col-md-offset-2 control-label"><h4 style="color:#636c72;">Text</h4></label>
+              <div class="col-md-offset-2 cols-md-3">
+                <div class="input-group" style="height:60%;">
+                   {{ form.text }}
+                </div>
+              </div>
+            </div>
+
 <div class="form-group">
-                            <div class="col-md-offset-6 col-md-1">
-                                <button type="submit" class="btn btn-info">Submit</button>
+                            <div class="col-md-offset-2 col-md-3">
+                                <button type="submit" class=" pull-left btn btn-info">Submit</button>
                             </div>
                         </div>
                     </form>

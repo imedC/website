@@ -41,13 +41,31 @@ def update_profile(request, username):
 	return render(request, 'blog/edit_profile.html', {
 		'profile_form': profile_form })
 
+
 def IndexView(request):
 	if request.user.is_authenticated():
 		base_template_name = 'blog/base.html'
 	else:
 		base_template_name = 'blog/visitor.html'
-	posts = Post.objects.all()
+	posts = Post.objects.all().order_by('-published_date')
 	return render(request, 'blog/index.html', {'posts':posts,'base_template_name':base_template_name})
+
+def add_comment_to_post(request, pk):
+	if request.user.is_authenticated():
+		base_template_name = 'blog/base.html'
+	else:
+		base_template_name = 'blog/visitor.html'
+	post = get_object_or_404(Post, pk=pk)
+	form = CommentForm(request.POST or None)
+	if form.is_valid():
+		comment = form.save(commit=False)
+		comment.user = request.user
+		comment.post = post
+		comment.save()
+		return redirect('blog:index')
+	return render(request, 'blog/index.html', {'post':post,'form': form,
+	'base_template_name':base_template_name})
+
 
 def DetailView(request, pk):
 	if request.user.is_authenticated():

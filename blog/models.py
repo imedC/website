@@ -16,7 +16,8 @@ class Profile(models.Model):
     cover = models.FileField(blank=True)
     bio = models.TextField(max_length=500, blank=True)
     location = models.TextField(max_length=200, blank=True)
-    bd = models.DateTimeField(blank=True, null=True) 
+    bd = models.FileField(blank=True, null=True) 
+    job = models.FileField(blank=True)
 
     def get_queryset(self):
         user = User.objects.get(username=self.kwargs['username'])

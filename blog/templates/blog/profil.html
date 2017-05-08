@@ -118,31 +118,22 @@ body { background-color:#e6ffff; }
                     <div class="desc" style="font-family:serif;">Introduce yourself</div> {%else%}
                     <div class="desc" style="font-family:serif;">{{ user.profile.bio|safe }}</div> {%endif%}
                 </div>
+              
                 <div class="bottom">
-                            <h3><strong>Location</strong></h3>
+                            <h4 style="color:#636c72;">Lives in</h4>
                             {% if not user.profile.location %}
-                            <p>-</p>
-                            <p>{{user.profile.location|safe}}</p>{%endif%}
-                            <hr>
-
-                            <h3><strong>Birthday</strong></h3>
-                            {% if not post.user.profile.bd %}
-                            <p>-</p>
-                            <p>{{post.user.profile.bd}}</p>{%endif%} <hr>
-                            <a class="btn btn-primary btn-twitter btn-sm" href="https://twitter.com/webmaniac"> 
-                        <i class="fa fa-twitter"></i>
-                    </a>
-                    <a class="btn btn-danger btn-sm" rel="publisher"
-                       href="https://plus.google.com/+ahmshahnuralam">
-                        <i class="fa fa-google-plus"></i>
-                    </a>
-                    <a class="btn btn-primary btn-sm" rel="publisher"
-                       href="https://plus.google.com/shahnuralam">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-                    <a class="btn btn-warning btn-sm" rel="publisher" href="https://plus.google.com/shahnuralam">
-                        <i class="fa fa-behance"></i>
-                    </a>
+                            <p>-</p>{%else%}
+                            <p style="font-family:serif;">{{user.profile.location|safe}}</p>{%endif%}
+                            
+                            <h4 style="color:#636c72;">Studied</h4>
+                            {% if not user.profile.bd %}
+                            <p>-</p>{%else%}
+                            <p style="font-family:serif;">{{user.profile.bd}}</p>{%endif%} 
+                            <h4 style="color:#636c72;">Job</h4>
+                            {% if not user.profile.job %}
+                            <p>-</p>{%else%}
+                            <p style="font-family:serif;">{{user.profile.job}}</p>{%endif%} <hr>
+                            
                 </div>
             </div>
 
@@ -182,11 +173,11 @@ body { background-color:#e6ffff; }
                         <div><a href="{% url 'blog:detail' post.pk %}" class="read-url" style="color:#09c;padding-left:10px;">
                         Read More »</a></div>                 
                     </div>
-                    
                     <hr>
+                     {% if user.is_authenticated %}
                     <div>
                         <div class="pull-right btn-group-xs">
-                            {%if post.user != user %}
+                            {%if post.user == request.user %}
                             <a href="{% url 'blog:update' post.pk %}"  class="btn btn-default btn-xs">
                             
                             <span class="glyphicon glyphicon-pencil"></span>
@@ -208,43 +199,53 @@ body { background-color:#e6ffff; }
                             <span class="glyphicon glyphicon-thumbs-up"></span>
                             
                              Like</a> {%endif%}
-
-                            <a class="btn btn-default btn-xs">
+                            <a href="#" class="btn btn-default btn-xs">
+                          
                             <span class="glyphicon glyphicon-comment"></span> Comment</a>
                         </div>
                         <br>
                     </div>
+                    {%endif%}
                     <hr>
         
                    <div class="media">
-                        {% for comment in post.comments.all %} 
+                   {% if not request.user.is_authenticated %}
+                    <h4><a href="{% url 'blog:register' %}"> Sign Up</a> or 
+                    <a href="{% url 'blog:login' %}">Log In</a> to comment this post</h4>
+                    {%else%}
+                    <h4>Leave a Comment:</h4>
+                    <form action="{% url 'blog:add_comment_to_post' post.pk %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group ">
+                 <input class="form-control" type="text" id="id_textc" name="textc"></div>
+                <div class="form-group ">
+                            <button type="submit" id="button" class="btn btn-info btn-large login-button">Comment</button>
+                        </div>
+                </form>
+                     {% for comment in post.comments.all %} 
                           <div class="post-content">
-                    {%if user.profile.avatar %}
-                    <img style="margin-bottom:-25px;border-radius:50%;width:50px;heigth:50px;"
-   src="{{user.profile.avatar.url}}"  alt ="logo">{%else%}
+                    {%if post.user.profile.avatar %}
+                    <img style="margin-left:30px;;margin-bottom:20px;border-radius:50%;width:50px;heigth:50px;"
+   src="{{comment.user.profile.avatar.url}}"  alt ="logo">{%else%}
     <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRuLHkpwz9uatkkrzR6FvSyO-AbKAPqTwu8pHrUx2BAtYBjpDCS-Q" title="John Doe" alt="John Doe" style="margin-bottom:-25px;border-radius:50%;width:60px;heigth:60px;">
                     {%endif%}
-                    {%if comment.textc %}
-                    <div id="com">
-                        <p style="padding-bottom:-15px;">{{ comment.textc|linebreaks }}</p></div>
-                         {%else%}
-                       <div class="media-body">
-                            <input class="form-control" rows="1" placeholder=" No comment yet">
-                        </div> {%endif%}
-                            
-            </div>
-             {% if comment.user == user %}
+                        
+           <strong style="color:#337ab7;">{{comment.user}}</strong>
+
+            {{ comment.textc|safe }}</div>
+            {% if comment.user == user %}
      <div class="pull-right" style="margin-right:15px;">
       <form action="{% url 'blog:comment_remove' comment.id %}" method="post" style="display: inline;">
                                                             {% csrf_token %}
                             <input type="hidden" name="comment_id" value="{{ comment.id }}" />
                             <button type="submit" class="btn btn-default btn-xs">
                             <span class="glyphicon glyphicon-trash"></span>
-                             Delete </button> </form></div> {%endif%}
+                             Delete </button> </form></div>{%endif%}
+
+
                             {% endfor %}
-                        
                             
-                        
+                        {%endif%}
                     </div>
                 </div>
             </div> {%endfor%} {%endif%}
@@ -252,10 +253,14 @@ body { background-color:#e6ffff; }
    
          
     </div>
-<div class="col-md-2" style="padding-top:10px;"><a href="{% url 'blog:edit_profile' user.username %}" 
+<div class="col-md-2" style="padding-top:10px;">
+{% if  user.username == request.user.username %}
+<a href="{% url 'blog:edit_profile' user.username %}" 
 class="btn btn-info btn-large"><span class="glyphicon glyphicon-cog"></span>
 Edit your profile </a>
+  {%endif%}
   </div>
     </div>
+  
 </div>
 {%endblock%}

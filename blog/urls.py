@@ -19,7 +19,7 @@ urlpatterns = [
 
     url(r'^post/add/$', views.post_new, name = 'creat' ),
    
-    #url(r'^post/(?P<pk>[0-9]+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
+    url(r'^post/(?P<pk>\d+)/comment/$', views.add_comment_to_post, name='add_comment_to_post'),
     url(r'^post/(?P<pk>\d+)/$', views.post_edit , name = 'update'),
     url(r'^comment/(?P<pk>\w+)/remove/$', views.CommentDeleteView.as_view(), name='comment_remove'),
     url(r'^post/(?P<pk>\w+)/delete/$', DeleteView.as_view(), name = 'delete'),
